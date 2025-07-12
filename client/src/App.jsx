@@ -5,6 +5,8 @@ import Profile from './pages/profile';
 import Communities from './pages/Communities';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import CreatePost from './pages/CreatePost';
+
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/communities" element={<Communities />} />
+          <Route path="/create" element={<CreatePost />} />
         </Route>
       </Routes>
     </Router>
