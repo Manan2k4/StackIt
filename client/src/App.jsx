@@ -1,20 +1,20 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Layout from './Layout/Layout';
+import Home from './pages/Home';
+import Profile from './pages/profile';
+import Communities from './pages/Communities';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Home from './pages/Home';
-import Profile from './pages/Profile';
-import Communities from './pages/Communities';
-import Layout from './Layout/Layout';
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Public routes (no Layout) */}
+        {/* Public Routes */}
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
-        {/* Protected/Layout-wrapped routes */}
+        {/* Protected Routes under Layout */}
         <Route element={<Layout />}>
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
