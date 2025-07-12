@@ -2,18 +2,21 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import authRoutes from './routes/auth.js';
 
 dotenv.config(); // Load env variables
 
-const app = express();
-app.use(cors());
+const app = express(); // 🟢 Define app BEFORE using it
+
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(express.json());
+
+// Add routes AFTER defining app
+app.use('/api', authRoutes);
+
 app.get("/", (req, res) => {
   res.send("StackIt API is running ✅");
 });
-
-
-// TODO: Add routes like app.use("/api/questions", questionRoutes)
 
 mongoose
   .connect(process.env.MONGO_URI)
