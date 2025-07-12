@@ -1,7 +1,7 @@
 # Team Name: Team 0338
 
 # Team Members:
-## Femil Ranpariya - femilraparia@gmail.com
+## Femil Ranparia - femilranparia@gmail.com
 ## Hitarth Shukla - hitarthshukla17@gmail.com
 ## Manan Ghoniya - ghoniyamanan@gmail.com
 
