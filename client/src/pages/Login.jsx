@@ -10,18 +10,21 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post('http://localhost:5000/api/login', {
-        username,
-        password,
-        role,
-      });
-      navigate('/home');
-    } catch (err) {
-      alert('Login failed. Check credentials & role.');
-    }
-  };
+  e.preventDefault();
+  try {
+    const res = await axios.post('http://localhost:5000/api/login', {
+      username,
+      password,
+      role,
+    });
+    // Store the user info received from backend:
+    localStorage.setItem('user', JSON.stringify(res.data.user));
+    navigate('/home');
+  } catch (err) {
+    alert('Login failed. Check credentials & role.', err);
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-blue-100 px-4">
@@ -75,12 +78,16 @@ const Login = () => {
         </button>
 
         <button
-          type="button"
-          onClick={() => navigate('/home')}
-          className="w-full border border-gray-200 py-2 rounded-lg hover:bg-gray-50 transition text-gray-500 text-sm"
-        >
-          Continue as Guest
-        </button>
+  type="button"
+  onClick={() => {
+    localStorage.setItem('user', JSON.stringify({ username: 'Guest', role: 'guest' }));
+    navigate('/home');
+  }}
+  className="w-full border border-gray-200 py-2 rounded-lg hover:bg-gray-50 transition text-gray-500 text-sm"
+>
+  Continue as Guest
+</button>
+
       </form>
     </div>
   );

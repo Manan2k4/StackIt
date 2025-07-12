@@ -1,12 +1,20 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 export default function CreatePost() {
-  const [postName, setPostName] = useState('');
-  const [image, setImage] = useState(null);
+  const [title, setTitle] = useState('');
+  const [body, setBody] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Post submitted:', { postName, image });
+    try {
+      await axios.post('http://localhost:5000/api/posts', { title, body });
+      alert('Post created successfully!');
+      setTitle('');
+      setBody('');
+    } catch (err) {
+      alert('Error creating post');
+    }
   };
 
   return (
@@ -18,17 +26,21 @@ export default function CreatePost() {
           <input
             type="text"
             className="w-full mt-1 p-2 border rounded"
-            value={postName}
-            onChange={(e) => setPostName(e.target.value)}
-            placeholder="Enter post title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Enter title"
+            required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Upload Image (optional)</label>
-          <input
-            type="file"
-            className="mt-1"
-            onChange={(e) => setImage(e.target.files[0])}
+          <label className="block text-sm font-medium">Post Body</label>
+          <textarea
+            className="w-full mt-1 p-2 border rounded"
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            placeholder="Write your question or post here"
+            rows="5"
+            required
           />
         </div>
         <button

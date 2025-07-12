@@ -37,10 +37,18 @@ router.post('/login', async (req, res) => {
     }
 
     console.log('🔐 Login success:', username, '| Role:', role);
-    res.status(200).json({ message: 'Login successful' });
+    // Return user info here:
+    res.status(200).json({
+      message: 'Login successful',
+      user: {
+        username: user.username,
+        role: user.role,
+      },
+    });
   } catch (err) {
     res.status(500).json({ message: 'Server error during login' });
   }
 });
+
 
 export default router;

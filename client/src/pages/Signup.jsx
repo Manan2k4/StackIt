@@ -79,12 +79,16 @@ const Signup = () => {
         </button>
 
         <button
-          type="button"
-          onClick={() => navigate('/home')}
-          className="w-full border border-gray-200 py-2 rounded-lg hover:bg-gray-50 transition text-gray-500 text-sm"
-        >
-          Continue as Guest
-        </button>
+  type="button"
+  onClick={() => {
+    localStorage.setItem('user', JSON.stringify({ username: 'Guest', role: 'guest' }));
+    navigate('/home');
+  }}
+  className="w-full border border-gray-200 py-2 rounded-lg hover:bg-gray-50 transition text-gray-500 text-sm"
+>
+  Continue as Guest
+</button>
+
       </form>
     </div>
   );

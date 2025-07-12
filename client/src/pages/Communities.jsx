@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Communities = () => {
   // Initial dummy communities
-  const [communities, setCommunities] = useState([
-    { id: 0, name: 'Community-00', description: '(Some Description...)' },
-    { id: 1, name: 'Community-00 1', description: '(Some Description...)' },
-    { id: 2, name: 'Community-00 2', description: '(Some Description...)' },
-    { id: 3, name: 'Community-00 3', description: '(Some Description...)' },
-  ]);
+  const defaultCommunities = [
+    { name: 'Community-00', description: '(Some Description...)' },
+    { name: 'Community-00 1', description: '(Some Description...)' },
+    { name: 'Community-00 2', description: '(Some Description...)' },
+    { name: 'Community-00 3', description: '(Some Description...)' },
+  ];
+
+const [communities, setCommunities] = useState(defaultCommunities);
+
 
   const [showModal, setShowModal] = useState(false);
 
@@ -16,27 +20,49 @@ const Communities = () => {
   const [newType, setNewType] = useState('public');
   const [newDesc, setNewDesc] = useState('');
 
-  const handleCreate = () => {
+  useEffect(() => {
+  axios
+    .get("http://localhost:5000/api/communities")
+    .then((res) => {
+      if (res.data.length > 0) {
+        setCommunities(res.data);
+      } else {
+        setCommunities(defaultCommunities);
+      }
+    })
+    .catch((err) => {
+      console.error("Fetch error:", err);
+      setCommunities(defaultCommunities);
+    });
+  }, []);
+
+
+  const handleCreate = async () => {
     if (!newName || !newDesc) {
       alert('Name and description are required.');
       return;
     }
-
-    const newCommunity = {
-      id: Date.now(),
-      name: newName,
-      type: newType,
-      description: newDesc,
-    };
-
-    setCommunities([...communities, newCommunity]);
-
-    // Reset form and close modal
-    setNewName('');
-    setNewType('public');
-    setNewDesc('');
-    setShowModal(false);
+  
+    try {
+      const res = await axios.post("http://localhost:5000/api/communities", {
+        name: newName,
+        type: newType,
+        description: newDesc,
+      });
+  
+      setCommunities((prev) => [...prev, res.data]);
+  
+      // Reset form
+      setNewName('');
+      setNewType('public');
+      setNewDesc('');
+      setShowModal(false);
+    } catch (err) {
+      console.error("❌ Failed to create community:", err);
+      alert("Failed to create community. Please try again.");
+    }
   };
+
 
   return (
     <section className="p-6">
