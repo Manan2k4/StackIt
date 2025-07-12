@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import React, { useState, useEffect, useMemo } from 'react';
 
 const Communities = () => {
   // Initial dummy communities
-  const defaultCommunities = [
-    { name: 'Community-00', description: '(Some Description...)' },
-    { name: 'Community-00 1', description: '(Some Description...)' },
-    { name: 'Community-00 2', description: '(Some Description...)' },
-    { name: 'Community-00 3', description: '(Some Description...)' },
-  ];
+  const defaultCommunities = useMemo(() => ([
+  { name: 'Community-00', description: '(Some Description...)' },
+  { name: 'Community-00 1', description: '(Some Description...)' },
+  { name: 'Community-00 2', description: '(Some Description...)' },
+  { name: 'Community-00 3', description: '(Some Description...)' },
+] ), []);
 
 const [communities, setCommunities] = useState(defaultCommunities);
 
@@ -34,7 +34,8 @@ const [communities, setCommunities] = useState(defaultCommunities);
       console.error("Fetch error:", err);
       setCommunities(defaultCommunities);
     });
-  }, []);
+}, [defaultCommunities]); // ✅ dependency now stable
+
 
 
   const handleCreate = async () => {

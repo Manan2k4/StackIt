@@ -13,7 +13,7 @@ export default function CreatePost() {
       setTitle('');
       setBody('');
     } catch (err) {
-      alert('Error creating post');
+      alert('Error creating post', err);
     }
   };
 
